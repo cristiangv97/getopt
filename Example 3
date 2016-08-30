@@ -1,0 +1,102 @@
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <getopt.h>
+
+void factores(int n)
+{
+	int i;
+	for (i=1;i<=n;i++)
+	{
+		if(n%i==0&&i<n)
+			printf("%i,",i);
+		else if (i==n)
+			printf("%i",i);
+	}
+	printf("\n");
+}
+
+void primos (int n)
+{
+
+	int i=0,j, k=2, l=0;
+	do
+	{	
+		j=0;
+		while(n%k==0)
+		{
+			if (j==0)
+			{
+				printf("%i,",k);
+				l=1;
+			}
+			n=n/k;
+			j++;
+		}
+		if (l==1)
+		{
+			l=0;
+			k=2;
+		}		
+		i++;
+		k++;
+		if(j>0)
+		{
+			if(n==1)
+				printf("%i",j);
+			else
+				printf("%i,",j);
+		}	
+
+	}while(n!=1);
+	printf("\n");
+}
+
+int main (int argc, char **argv)
+{
+	int dflag = 0, fflag=0, nflag=0;
+	char *nvalue;
+	int s,n;
+	while ((s = getopt (argc, argv, "dfn:")) != -1)
+		switch (s)
+		{
+			case 'd':
+				dflag = 1;
+				break;
+			case 'f':
+				fflag = 1;
+				break;
+			case 'n':
+				nvalue = optarg;
+				n = atoi(nvalue);
+				nflag = 1;
+				break;
+	  	}
+	if ((dflag==0&&fflag==0)||nflag==0)
+	{
+		if (dflag==0&&fflag==0)
+		{
+			fprintf (stderr,"ERROR: Flag either -f or -d is required.\n");
+			return 131;
+		}
+		if (nflag==0)
+		{
+			fprintf (stderr,"ERROR: Flag -n is required.\n");
+			return 129;
+		}
+	}
+	if (n<2)
+	{
+		fprintf(stderr,"ERROR: Flag -n has not valid value.\n");
+		return 130;
+	}
+	if (dflag==1||fflag==1)
+	{
+		if (dflag==1)
+			factores(n);
+		else
+			primos(n);
+	}
+	return 0;
+}
