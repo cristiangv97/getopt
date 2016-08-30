@@ -1,0 +1,51 @@
+#include <ctype.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <getopt.h>
+int main (int argc, char **argv)
+{
+	int aflag = 0, bflag=0;
+	char *avalue, *bvalue;
+	int i,s,a,b,c=1;
+	while ((s = getopt (argc, argv, "a:b:")) != -1)
+		switch (s)
+		{
+			case 'a':
+				avalue = optarg;
+				a = atoi(avalue);
+				aflag = 1;
+				break;
+			case 'b':
+				bvalue = optarg;
+				b = atoi(bvalue);
+				bflag = 1;
+				break;
+	  	}
+	if (aflag==0)
+	{
+		fprintf (stderr,"ERROR: Flag -a is required.\n");
+		return 129;
+	}
+	else if (bflag==0)
+	{
+		fprintf (stderr,"ERROR: Flag -b is required.\n");
+		return 129;
+	}
+	if (a<=0)
+	{
+		fprintf(stderr,"ERROR: Flag -a has not valid value\n");
+		return 130;
+	}
+	else if (b<0)
+	{
+		fprintf(stderr,"ERROR: Flag -b has not valid value\n");
+		return 130;
+	}
+	for(i=1;i<=b;i++)
+		if (b!=0)
+			c=c*a;
+	printf("%i\n",c);
+	return 0;
+}
