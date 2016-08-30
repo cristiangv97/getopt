@@ -1,0 +1,78 @@
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <getopt.h>
+
+void bases (int n, int b)
+{
+	int i=29, a[30], j=29;
+	do
+	{
+		a[i]=n%b;
+		n=n/b;
+		i--;
+		if (n!=0)
+			j--;
+	} while(n>=b);
+	a[i]=n;
+	for(i=j;i<30;i++)
+	{
+		if(i!=29)
+			printf("%i,",a[i]);
+		else
+			printf("%i",a[i]);
+	}
+}
+
+int main (int argc, char **argv)
+{
+	int nflag = 0, bflag=0;
+	char *nvalue, *bvalue;
+	int s, n, b;
+	while ((s = getopt (argc, argv, "n:b:")) != -1)
+		switch (s)
+		{
+			case 'n':
+				nvalue = optarg;
+				n = atoi(nvalue);
+				nflag = 1;
+				break;
+			case 'b':
+				bvalue = optarg;
+				b = atoi(bvalue);
+				bflag = 1;
+				break;
+	  	}
+	if (nflag==0||bflag==0)
+	{
+		if (nflag==0&&bflag==0)
+		{
+			fprintf (stderr,"ERROR: Flag either -n or -b is required.\n");
+			return 131;
+		}
+		if (nflag==0)
+		{
+			fprintf (stderr,"ERROR: Flag -n is required.\n");
+			return 129;
+		}
+		else if (bflag==0)
+		{
+			fprintf (stderr,"ERROR: Flag -b is required.\n");
+			return 129;
+		}
+	}
+	if (n<1)
+	{
+		fprintf(stderr,"ERROR: Flag -n has not valid value.\n");
+		return 130;
+	}
+	else if (b<1)
+	{
+		fprintf(stderr,"ERROR: Flag -b has not valid value.\n");
+		return 130;
+	}
+	bases(n, b);
+	printf("\n");
+	return 0;
+}
